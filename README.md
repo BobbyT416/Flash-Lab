@@ -1,17 +1,17 @@
-# Flash Lab v0.1.0
+# Flash Lab v0.2.0
 
-An original, dependency-free hardware prototype for iPhone Safari. Not affiliated with Lumenate. No meditation or therapeutic effects are claimed.
+Original browser light-and-sound sessions for iPhone Safari. Hosted on GitHub Pages. No accounts, uploads, analytics, recordings, or external audio assets. Not affiliated with Lumenate; no therapeutic or equivalent experiential effects are claimed.
 
-## Publish on GitHub Pages
-1. Create a repository named `Flash-Lab`.
-2. Upload `index.html`, `style.css`, `app.js`, and `.nojekyll` to its root.
-3. In Settings → Pages, choose **Deploy from a branch**, then **main / (root)** and Save.
-4. Open the HTTPS Pages URL in iPhone Safari (not a downloaded file or an in-app preview).
-5. Acknowledge the notice, enable the camera, then try steady light first. Reconnect and run the five-second pulse test. Copy results back to the chat and say whether the physical flash worked.
+## Use
+Open the Pages site in Safari. Select a pattern, duration and sound. Acknowledge the light notice and tap Start; allow rear-camera access. Start with a 30-second preview. Stop releases camera and audio. Leaving the page ends the session. Sound-only needs no camera access. Volume is adjustable during playback.
 
-No build, server, account, recordings, analytics, or external dependencies. Camera stays local. Screen locking, leaving Safari, overheating, battery state, hardware and browser limitations can interrupt the test.
+Patterns: Tide uses eight seconds of 1 Hz pulses and four seconds dark; Evening uses continuous 1 Hz pulses; Drift alternates ten seconds of 1 Hz and ten seconds of 2 Hz. All pulses use 50% on/off timing. These slow rates are compatibility-oriented, not a proven-safe range. Actual LED brightness and timing depend on the phone and browser.
 
-## Scope
-Steady light for three seconds and slow pulses at 1 or 2 Hz for five seconds. These rates are compatibility tests, not a proven-safe range or a reproduction of Lumenate's sequences. Flash brightness is not adjustable in this prototype. Browser API completion timing does not measure actual LED timing. Precise, faster sequences need separate hardware measurement before implementation.
+Duration choices: 30 seconds, 1, 3 or 5 minutes. Sound is locally synthesized filtered noise or soft sine tones. Flash and sound run together but are not precisely synchronized. No brightness adjustment or faster sequences are included.
 
-STOP releases all camera tracks. Hiding or leaving the page and revoking the notice also release the camera. An open permission prompt must still be dismissed through Safari.
+## Implementation and validation
+No build required. Serve this directory over HTTPS; main/root is configured for GitHub Pages. Query-versioned CSS and JavaScript assets help refresh updates. No service worker.
+
+JavaScript syntax and simulated-device checks cover consent, test mode, all three patterns through completion, permission-prompt cancellation, unsupported torch, page hiding, sound-only validation and pattern boundaries. These checks do not establish physical LED timing, medical safety, or real iPhone audio quality. User confirmed physical 1 Hz flashing in v0.1.0.
+
+Camera tracks are released on Stop, completion, errors, page hiding and page exit. Commands run sequentially; phases are recalculated from elapsed time instead of replaying missed pulses. Commands slower than 200 ms and large scheduling interruptions stop the session. A deadline timer releases the hardware if a torch command is pending; browser suspension can delay JavaScript timers. Screen wake lock is requested where supported; if unavailable, keep the screen awake manually.
