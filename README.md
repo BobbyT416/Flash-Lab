@@ -1,4 +1,4 @@
-# Flash Lab v0.2.1
+# Flash Lab v0.3.0
 
 Original browser light-and-sound sessions for iPhone Safari. Hosted on GitHub Pages. No accounts, uploads, analytics, recordings, or external audio assets. Not affiliated with Lumenate; no therapeutic or equivalent experiential effects are claimed.
 
@@ -17,3 +17,8 @@ JavaScript syntax and simulated-device checks cover consent, test mode, all thre
 Camera tracks are released on Stop, completion, errors, page hiding and page exit. Commands run sequentially; phases are recalculated from elapsed time instead of replaying missed pulses. Commands slower than one second and scheduling interruptions over 1.5 seconds stop the session. Shorter stalls skip missed phases rather than replaying pulses. A deadline timer releases the hardware if a torch command is pending; browser suspension can delay JavaScript timers. Screen wake lock is requested where supported; if unavailable, keep the screen awake manually.
 
 Version 0.2.1 separates camera preparation from session playback to avoid starting sound during camera setup. The original 200 ms timing cutoff was too strict for transient mobile scheduling delays. Stops now retain a visible reason in the results. This is a compatibility fix; the reported device interruption has not been reproduced on actual iPhone hardware.
+
+## Version 0.3.0
+Bloom adds 4-second 1/1.5/2/1.5/1 Hz stages and a 4-second dark pause. Duet delivers two 250 ms pulses, each followed by 250 ms off, then two seconds dark. Neither session pattern exceeds 2 Hz.
+
+Separate five-second hardware timing tests request 3, 4 or 6 Hz. These do not unlock faster long sessions. Enable flash first, then explicitly run a test. Tests are silent to isolate flash performance. Missed pulse intervals and commands consuming more than 80% of a half-period stop the faster test; delayed transitions are never replayed in a burst. Results describe browser command and scheduler timing, not LED timing. Physical measurement would require an external light sensor or suitable high-speed video. No equivalence to Lumenate is claimed.
